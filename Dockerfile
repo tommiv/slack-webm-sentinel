@@ -1,13 +1,11 @@
 FROM golang:1.13-alpine AS builder
 
 RUN apk add --no-cache git
-RUN go get -u github.com/golang/dep/cmd/dep
 
 WORKDIR /go/src/app
 ADD . .
 
-RUN dep ensure
-RUN go build -o /go/src/app/slack-webm-sentinel
+RUN GOOS=linux GOARCH=amd64 go build -i -ldflags "-s -w" -o /go/src/app/slack-webm-sentinel
 
 
 
